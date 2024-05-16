@@ -1,6 +1,6 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:trilhaapp/services/random_number.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +26,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var randomNumber = 0;
 
+  int _genRandomNumber() {
+    Random newNumber = Random();
+    return newNumber.nextInt(1000);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +45,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-              randomNumber = genRandomNumber();
+              randomNumber = _genRandomNumber();
             });
           },
           backgroundColor: Colors.amber[700],
