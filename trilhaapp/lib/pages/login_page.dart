@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:trilhaapp/pages/main_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                       Text('Faça seu login e make the change_',
                           style: GoogleFonts.roboto(
                             color: Colors.white,
-                            fontWeight: FontWeight.w300, // light
+                            fontWeight: FontWeight.w300,
                             fontStyle: FontStyle.italic,
                           )),
                     ],
@@ -56,29 +56,25 @@ class _LoginPageState extends State<LoginPage> {
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 height: 30,
                 alignment: Alignment.center,
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.email_outlined,
-                      color: Colors.purple,
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: TextField(
-                            controller: emailController,
-                            onChanged: (value) {
-                              debugPrint(value);
-                            },
-                            decoration: const InputDecoration(
-                              hintText: 'E-mail',
-                              hintStyle: TextStyle(color: Colors.white),
-                              fillColor: Colors.black,
-                              filled: true,
-                              border: InputBorder.none,
-                            )))
-                  ],
+                child: TextField(
+                  controller: emailController,
+                  // pelo amor de Deus, nunca use isso em prod!
+                  onChanged: (value) {
+                    debugPrint(value);
+                  },
+                  style: const TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.only(top: 0),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 141, 79, 151))),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 141, 79, 151))),
+                      hintText: 'Email',
+                      hintStyle: TextStyle(color: Colors.white),
+                      prefixIcon: Icon(Icons.person,
+                          color: Color.fromARGB(255, 141, 79, 151))),
                 ),
               ),
               Container(
@@ -90,40 +86,59 @@ class _LoginPageState extends State<LoginPage> {
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 height: 30,
                 alignment: Alignment.center,
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.lock,
-                      color: Colors.purple,
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: TextField(
-                      controller: passwordController,
-                      obscureText: isObscureText,
-                      decoration: const InputDecoration(
-                        hintText: 'Senha',
-                        hintStyle: TextStyle(color: Colors.white),
-                        fillColor: Colors.black,
-                        filled: true,
-                        border: InputBorder.none,
+                child: TextField(
+                    controller: passwordController,
+                    obscureText: isObscureText,
+                    onChanged: (value) {
+                      debugPrint(value);
+                    },
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(top: 0),
+                      enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 141, 79, 151))),
+                      focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 141, 71, 151))),
+                      hintText: 'Password',
+                      hintStyle: const TextStyle(color: Colors.white),
+                      prefixIcon: const Icon(
+                        Icons.lock,
+                        color: Color.fromARGB(255, 141, 79, 151),
                       ),
+                      suffixIcon: InkWell(
+                          onTap: () {
+                            setState(() {
+                              isObscureText = !isObscureText;
+                            });
+                          },
+                          child: Icon(
+                            isObscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: const Color.fromARGB(255, 141, 79, 151),
+                          )),
                     )),
-                    const Icon(
-                      Icons.remove_red_eye_outlined,
-                      color: Colors.purple,
-                    ),
-                  ],
-                ),
               ),
               Container(
                 width: double.infinity,
                 margin:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (emailController.text.trim() == "email@email.com" &&
+                        passwordController.text.trim() == "123") {
+                      //this is how i go to another page
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MainPage()));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Erro ao efetuar o Login')));
+                    }
+                  },
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.purple),
@@ -136,17 +151,24 @@ class _LoginPageState extends State<LoginPage> {
                       )),
                 ),
               ),
-              const SizedBox(
-                height: 70,
-              ),
+              Expanded(child: Container()),
               Container(
                 width: double.infinity,
                 margin: const EdgeInsets.symmetric(horizontal: 30),
-                color: Colors.green,
                 height: 30,
                 alignment: Alignment.center,
-                child: const Text('Cadastrar'),
+                child: const Text('Esqueci minha senha',
+                    style: TextStyle(
+                        color: Colors.yellow, fontWeight: FontWeight.w400)),
               ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  height: 30,
+                  alignment: Alignment.center,
+                  child: const Text('Criar conta',
+                      style: TextStyle(
+                          color: Colors.green, fontWeight: FontWeight.w400)))
             ],
           ),
         ),

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:trilhaapp/pages/home_page.dart';
 import 'package:trilhaapp/pages/login_page.dart';
 
 void main() {

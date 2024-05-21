@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.amber[700],
         centerTitle: true,
-        title: const Text('App  Counter'),
+        title: const Text('App Counter'),
       ),
       body: Center(
         child: Text(randomNumber.toString()),
