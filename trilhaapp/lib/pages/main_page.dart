@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:trilhaapp/pages/registration_page.dart';
+import 'package:trilhaapp/pages/card_page.dart';
 import 'package:trilhaapp/shared/widgets/custom_drawer.dart';
 
 class MainPage extends StatefulWidget {
@@ -11,6 +11,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  PageController controller = PageController(initialPage: 0);
+  int pagePosition = 0;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,8 +28,31 @@ class _MainPageState extends State<MainPage> {
         drawer: CustomDrawer(),
         body: PageView(
           children: [
-            Container(
-              color: Colors.black,
+            Column(
+              children: [
+                Expanded(
+                  child: PageView(
+                    controller: controller,
+                    onPageChanged: (value) {
+                      pagePosition = value;
+                    },
+                    children: const [
+                      CardPage(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            BottomNavigationBar(
+              onTap: (value) {
+                controller.jumpToPage(value);
+              },
+              currentIndex: pagePosition,
+              items: [
+                BottomNavigationBarItem(label: "Pag1", icon: Icon(Icons.home)),
+                BottomNavigationBarItem(label: "Pag2", icon: Icon(Icons.add)),
+                BottomNavigationBarItem(label: "Pag3", icon: Icon(Icons.person))
+              ],
             )
           ],
         ),
