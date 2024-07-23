@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:trilhaapp/pages/card_page.dart';
 import 'package:trilhaapp/pages/list_view_h.dart';
 import 'package:trilhaapp/shared/widgets/custom_drawer.dart';
+import 'package:trilhaapp/store/pages/main_store.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -13,6 +14,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   PageController controller = PageController(initialPage: 0);
+  final mainPage items = mainPage();
   int posicaoPagina = 0;
   @override
   Widget build(BuildContext context) {
@@ -25,14 +27,14 @@ class _MainPageState extends State<MainPage> {
         body: Column(
           children: [
             Expanded(
-              child: PageView(
-                controller: controller,
-                onPageChanged: (value) {
-                  setState(() {
-                    posicaoPagina = value;
-                  });
-                },
-                children: const [CardPage(), ListViewHPage()],
+              child: Observer(
+                builder: (context) => PageView(
+                  controller: controller,
+                  onPageChanged: (value) {
+                    items.pagePosition = value;
+                  },
+                  children: const [CardPage(), ListViewHPage()],
+                ),
               ),
             ),
             BottomNavigationBar(
